@@ -3,8 +3,8 @@ input_data = """
 My O
 name O
 is O
-Char fname
-Dil lname
+ABC fname
+XYZ lname
 """
 
 # Split data into lines
