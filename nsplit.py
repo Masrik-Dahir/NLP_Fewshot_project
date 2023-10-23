@@ -1,6 +1,10 @@
 # Sample input data
-input_data ="""
-
+input_data = """
+My O
+name O
+is O
+Char fname
+Dil lname
 """
 
 # Split data into lines
@@ -23,21 +27,19 @@ for line in lines:
             # If the entity is 'O', add it directly to both datasets
             dataset_fname.append(f"{word} {entity}")
             dataset_lname.append(f"{word} {entity}")
-        else:
-            # If the entity is not 'O', track the current entity and entity type
-            current_entity.append(word)
-            current_entity_type = entity
+        elif entity == 'fname':
+            # If the entity is 'O', add it directly to both datasets
+            dataset_fname.append(f"{word} fname")
+            dataset_lname.append(f"{word} 0")
+        elif entity == 'lname':
+            # If the entity is 'O', add it directly to both datasets
+            dataset_fname.append(f"{word} 0")
+            dataset_lname.append(f"{word} lname")
     else:
         # If the line doesn't have two parts, something went wrong
         print(f"Error: Invalid line format: {line}")
 
-# Add the tracked entity to the appropriate dataset
-if current_entity_type == 'fname':
-    dataset_fname.extend([f"{word} {current_entity_type}" for word in current_entity])
-    dataset_lname.extend([f"{word} O" for word in current_entity])
-elif current_entity_type == 'lname':
-    dataset_fname.extend([f"{word} O" for word in current_entity])
-    dataset_lname.extend([f"{word} {current_entity_type}" for word in current_entity])
+
 
 # Print the resulting datasets
 print("Dataset with 'fname':\n", "\n".join(dataset_fname))
