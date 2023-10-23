@@ -27,14 +27,16 @@ for line in lines:
             # If the entity is 'O', add it directly to both datasets
             dataset_fname.append(f"{word} {entity}")
             dataset_lname.append(f"{word} {entity}")
+
         elif entity == 'fname':
             # If the entity is 'fname', add it directly to both datasets
-            dataset_fname.append(f"{word} fname")
+            dataset_fname.append(f"{word} {entity}")
             dataset_lname.append(f"{word} 0")
+
         elif entity == 'lname':
             # If the entity is 'lname', add it directly to both datasets
             dataset_fname.append(f"{word} 0")
-            dataset_lname.append(f"{word} lname")
+            dataset_lname.append(f"{word} {entity}")
     else:
         # If the line doesn't have two parts, something went wrong
         print(f"Error: Invalid line format: {line}")
