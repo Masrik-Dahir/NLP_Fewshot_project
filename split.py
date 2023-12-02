@@ -69,7 +69,17 @@ def process(input_data):
         print(f"\nDataset with '{dataset_name}':\n", "\n".join(dataset))
     return datasets
 
+def read(file_path):
+    try:
+        with open(file_path, 'r') as file:
+            content = file.read()
+        return content
+    except FileNotFoundError:
+        return f"File not found: {file_path}"
+    except Exception as e:
+        return f"An error occurred: {e}"
+
 def global_dictionary():
     dictionary = {}
     for file in get_files_recursively(folders[0]):
-        dictionary[file] = process(file)
+        dictionary[file] = process(read(file))
