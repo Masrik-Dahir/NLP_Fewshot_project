@@ -1,3 +1,5 @@
+import os
+
 # Sample input data
 input_data = """
 My O
@@ -9,41 +11,65 @@ XYZ lname
 XYT pname
 """
 
-# Split data into lines
-lines = input_data.strip().split('\n')
+folders = [r'F:\Repo\PycharmProjects\NLP_Fewshot_project\Entity\dev_data',
+           r'F:\Repo\PycharmProjects\NLP_Fewshot_project\Entity\train_data',
+           r'F:\Repo\PycharmProjects\NLP_Fewshot_project\Entity\code_test']
 
-# Initialize a dictionary to store datasets dynamically
-datasets = {}
+def get_files_recursively(folder_path):
+    file_list = []
+    for root, _, files in os.walk(folder_path):
+        for file in files:
+            file_list.append(os.path.join(root, file))
+    return file_list
+def pick_ann(given_list: list):
+    lis = []
+    for i in given_list:
+        if i.endswith(".ann"):
+            lis.append(i)
+    return lis
 
-for line in lines:
-    parts = line.split()
-    if len(parts) == 2:
-        word, entity = parts
-        if entity != 'O':
-            if entity not in datasets:
-                datasets[entity] = []
+def process(input_data):
+    # Split data into lines
+    lines = input_data.strip().split('\n')
+
+    # Initialize a dictionary to store datasets dynamically
+    datasets = {}
+
+    for line in lines:
+        parts = line.split()
+        if len(parts) == 2:
+            word, entity = parts
+            if entity != 'O':
+                if entity not in datasets:
+                    datasets[entity] = []
 
 
-# Process the lines and split the data
-for line in lines:
-    parts = line.split()
-    if len(parts) == 2:
-        word, entity = parts
-        # If the entity is not 'O', distribute it to the datasets accordingly
-        if entity != 'O':
-            datasets[entity].append(f"{word} {entity}")
-            for dataset_name in datasets:
-                if dataset_name != entity:
-                    datasets[dataset_name].append(f"{word} 0")
+    # Process the lines and split the data
+    for line in lines:
+        parts = line.split()
+        if len(parts) == 2:
+            word, entity = parts
+            # If the entity is not 'O', distribute it to the datasets accordingly
+            if entity != 'O':
+                datasets[entity].append(f"{word} {entity}")
+                for dataset_name in datasets:
+                    if dataset_name != entity:
+                        datasets[dataset_name].append(f"{word} 0")
+            else:
+                # If the entity is 'O', add it directly to all datasets
+                for dataset_name in datasets:
+                    datasets[dataset_name].append(f"{word} {entity}")
         else:
-            # If the entity is 'O', add it directly to all datasets
-            for dataset_name in datasets:
-                datasets[dataset_name].append(f"{word} {entity}")
-    else:
-        # If the line doesn't have two parts, something went wrong
-        print(f"Error: Invalid line format: {line}")
+            # If the line doesn't have two parts, something went wrong
+            print(f"Error: Invalid line format: {line}")
 
 
-# Print the resulting datasets
-for dataset_name, dataset in datasets.items():
-    print(f"\nDataset with '{dataset_name}':\n", "\n".join(dataset))
+    # Print the resulting datasets
+    for dataset_name, dataset in datasets.items():
+        print(f"\nDataset with '{dataset_name}':\n", "\n".join(dataset))
+    return datasets
+
+def global_dictionary():
+    dictionary = {}
+    for file in get_files_recursively(folders[0]):
+        dictionary[file] = process(file)

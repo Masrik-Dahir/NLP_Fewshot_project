@@ -81,4 +81,9 @@ def main():
         print(count_entities(all_string))
         print()
 
-main()
+# main()
+folders = [r'F:\Repo\PycharmProjects\NLP_Fewshot_project\Entity\dev_data',
+           r'F:\Repo\PycharmProjects\NLP_Fewshot_project\Entity\train_data',
+           r'F:\Repo\PycharmProjects\NLP_Fewshot_project\Entity\code_test']
+
+print(read_file_lines_to_list(get_files_recursively(folders[0])[0]))
