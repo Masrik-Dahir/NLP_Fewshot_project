@@ -16,7 +16,9 @@ def main():
     dev_files = global_dictionary(dev_path)
     test_files = global_dictionary(test_path)
 
+    
     for file in train_files:
+        print(file)
         print(train_files[file])
         exit()
 
