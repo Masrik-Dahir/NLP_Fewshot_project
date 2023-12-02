@@ -1,32 +1,12 @@
 import os
 
-# Sample input data
-input_data = """
-My O
-RANDOM kname
-name O
-is O
-ABC fname
-XYZ lname
-XYT pname
-"""
-
-folders = [r'F:\Repo\PycharmProjects\NLP_Fewshot_project\Entity\dev_data',
-           r'F:\Repo\PycharmProjects\NLP_Fewshot_project\Entity\train_data',
-           r'F:\Repo\PycharmProjects\NLP_Fewshot_project\Entity\code_test']
-
 def get_files_recursively(folder_path):
     file_list = []
     for root, _, files in os.walk(folder_path):
         for file in files:
-            file_list.append(os.path.join(root, file))
+            if file.endswith("connl"):
+                file_list.append(os.path.join(root, file))
     return file_list
-def pick_ann(given_list: list):
-    lis = []
-    for i in given_list:
-        if i.endswith(".ann"):
-            lis.append(i)
-    return lis
 
 def process(input_data):
     # Split data into lines
@@ -54,7 +34,7 @@ def process(input_data):
                 datasets[entity].append(f"{word} {entity}")
                 for dataset_name in datasets:
                     if dataset_name != entity:
-                        datasets[dataset_name].append(f"{word} 0")
+                        datasets[dataset_name].append(f"{word} O")
             else:
                 # If the entity is 'O', add it directly to all datasets
                 for dataset_name in datasets:
@@ -65,8 +45,8 @@ def process(input_data):
 
 
     # Print the resulting datasets
-    for dataset_name, dataset in datasets.items():
-        print(f"\nDataset with '{dataset_name}':\n", "\n".join(dataset))
+    #for dataset_name, dataset in datasets.items():
+        #print(f"\nDataset with '{dataset_name}':\n", "\n".join(dataset))
     return datasets
 
 def read(file_path):
@@ -79,7 +59,8 @@ def read(file_path):
     except Exception as e:
         return f"An error occurred: {e}"
 
-def global_dictionary():
+def global_dictionary(folder):
     dictionary = {}
-    for file in get_files_recursively(folders[0]):
+    for file in get_files_recursively(folder):
         dictionary[file] = process(read(file))
+    return dictionary
