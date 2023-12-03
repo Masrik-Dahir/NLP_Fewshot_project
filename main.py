@@ -1,4 +1,5 @@
 import argparse
+from preprocess import sentencize, filter_tasks
 from split import global_dictionary
 def main():
     parser = argparse.ArgumentParser(
@@ -16,12 +17,21 @@ def main():
     dev_files = global_dictionary(dev_path)
     test_files = global_dictionary(test_path)
 
-    
+    n_tasks_to_sents_and_labels = {}
+
     for file in train_files:
-        print(file)
-        print(train_files[file])
-        exit()
+        for entity in train_files[file]:
+            if entity not in n_tasks_to_sents_and_labels:
+                n_tasks_to_sents_and_labels[entity] = {"sents":[],"labels":[]}
+            sents, labels = sentencize(train_files[file][entity])
+            n_tasks_to_sents_and_labels[entity]["sents"].extend(sents)
+            n_tasks_to_sents_and_labels[entity]["labels"].extend(labels)
 
-
+    n_tasks_to_sents_and_labels = filter_tasks(n_tasks_to_sents_and_labels)
+    for task in n_tasks_to_sents_and_labels:
+        print(task)
+        print(len(n_tasks_to_sents_and_labels[task]["sents"]))
+        assert(len(n_tasks_to_sents_and_labels[task]["sents"])==len(n_tasks_to_sents_and_labels[task]["labels"]))
+        
 if __name__ == '__main__':
     main()
