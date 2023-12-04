@@ -36,4 +36,3 @@ def filter_tasks(task_dict):
                 out[task]["sents"].append(task_dict[task]["sents"][i])
                 out[task]["labels"].append(task_dict[task]["labels"][i])
     return out
-
