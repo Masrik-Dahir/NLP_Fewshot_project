@@ -70,8 +70,8 @@ class TestTask:
 
         sents, labels = zip(*zipped_list)
 
-        self.support_sentences = sents
-        self.support_labels = labels
+        self.support_sentences = sents[:num_support]
+        self.support_labels = labels[:num_support]
 
         self.query_sentences = task_data["sents"]
         self.query_labels = task_data["labels"]
