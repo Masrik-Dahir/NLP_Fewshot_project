@@ -1,9 +1,12 @@
 import argparse
+from model import MetaLearner, NERModel
 from preprocess import sentencize, filter_tasks
 from split import global_dictionary
 from task import TrainTask, TestTask, DevTask
 from tokenize_and_stuff import tokenize_bert
 import torch
+import torch.nn as nn
+import torch.optim as optim
 from torch.utils.data import TensorDataset, DataLoader
 meta_train_tasks = ["B-EXAMPLE_LABEL", "B-REACTION_PRODUCT", "B-STARTING_MATERIAL", "B-SOLVENT", "I-TIME", "B-WORKUP", "I-YIELD_OTHER", "B-YIELD_PERCENT", "I-REAGENT_CATALYST"]
 meta_dev_tasks = ["B-REAGENT_CATALYST", "B-REACTION_STEP", "B-TEMPERATURE", "I-TEMPERATURE"]
@@ -21,6 +24,9 @@ def main():
     parser.add_argument("--q", help="number of query set examples")
     parser.add_argument("--max_len", help="max_len of tokens for bert")
     parser.add_argument("--batch_size", help="specify batch_size (ANYTHING OVER 5 IS BIGGER THAN SUPPORT DATASET SIZE FOR K=5 AND WILL CAUSE ERRORS)")
+    parser.add_argument("--e", help="number of epochs")
+    parser.add_argument("--meta_lr", help="lr for metalearning")
+    parser.add_argument("--lr", help="lr for inner loop")
     args = parser.parse_args()
     train_path = args.train_path
     dev_path = args.dev_path
@@ -37,6 +43,10 @@ def main():
     batch_size = args.batch_size
     if batch_size is None:
         batch_size=5
+    epochs = args.e
+    if epochs is None:
+        epochs = 500
+    
     train_files = global_dictionary(train_path)
     dev_files = global_dictionary(dev_path)
     test_files = global_dictionary(test_path)
@@ -141,7 +151,33 @@ def main():
         query_dataset = TensorDataset(torch.LongTensor(query_sent_ids), torch.LongTensor(query_labels), torch.LongTensor(query_attention))
         test_dataloader_query[t] = DataLoader(query_dataset, batch_size=batch_size, shuffle=True)      
     
-    ##MAML CODE GOES HERE
+    meta_learner = MetaLearner()
+    meta_optim = optim.Adam(meta_learner.parameters(), lr=.001)
+    loss_function = nn.BCELoss()
+    for epoch in range(epochs):
+        print("Epoch number: "+str(epoch))
+        meta_loss_total = 0.0
+        for task in train_dataloader_support:
+            learner = MetaLearner()
+            learner.load_state_dict(meta_learner.state_dict())
+            optimizer = optim.Adam(learner.parameters(), lr=.1)
+            for sent_ids, labels, attention in train_dataloader_support[task]:
+                learner.zero_grad()
+                y_pred = learner(sent_ids, attention)
+                loss = loss_function(y_pred.float(), labels.float())
+                loss.backward()
+                optimizer.step()
+            meta_loss = 0.0
+            for sent_ids, labels, attention in train_dataloader_query[task]:
+                y_pred = learner(sent_ids, attention)
+                loss = loss_function(y_pred.float(), labels.float())
+                meta_loss+=loss
+            meta_loss_total += meta_loss.item()
+        
+        meta_loss_avg = meta_loss_total / len(train_dataloader_query)
+        meta_optim.zero_grad()
+        meta_loss_avg.backward()
+        meta_optim.step()
 
     
 
