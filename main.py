@@ -202,7 +202,7 @@ def main():
                     attention = attention.to(device)
                     learner.zero_grad()
                     y_pred = learner(sent_ids, attention)
-                    loss = loss_function(y_pred.squeeze().float(), labels.float())
+                    loss = loss_function(y_pred.float(), labels.float())
                     loss.backward()
                     optimizer.step()
                 meta_loss = 0.0
@@ -211,9 +211,9 @@ def main():
                     labels = labels.to(device)
                     attention = attention.to(device)
                     y_pred = learner(sent_ids, attention)
-                    loss = loss_function(y_pred.squeeze().float(), labels.float())
+                    loss = loss_function(y_pred.float(), labels.float())
                     meta_loss+=loss
-                meta_loss_total += meta_loss.item()
+                meta_loss_total += meta_loss
             
             meta_loss_avg = meta_loss_total / len(train_dataloader_query)
             meta_optim.zero_grad()
@@ -233,7 +233,7 @@ def main():
                     attention = attention.to(device)
                     learner.zero_grad()
                     y_pred = learner(sent_ids, attention)
-                    loss = loss_function(y_pred.squeeze().float(), labels.float())
+                    loss = loss_function(y_pred.float(), labels.float())
                     loss.backward()
                     optimizer.step()
                 meta_loss = 0.0
@@ -243,9 +243,9 @@ def main():
                         labels = labels.to(device)
                         attention = attention.to(device)
                         y_pred = learner(sent_ids, attention)
-                        loss = loss_function(y_pred.squeeze().float(), labels.float())
+                        loss = loss_function(y_pred.float(), labels.float())
                         meta_loss+=loss
-                    meta_loss_total+=meta_loss.item()
+                    meta_loss_total+=meta_loss
             meta_loss_avg = meta_loss_total/len(dev_dataloader_query)
             dev_losses.append(meta_loss_avg)
             print("Dev loss average: "+str(meta_loss_avg))
@@ -281,7 +281,7 @@ def main():
                 attention = attention.to(device)
                 optimizer.zero_grad()
                 y_pred = learner(sent_ids, attention)
-                loss = loss_function(y_pred.squeeze().float(), labels.float())
+                loss = loss_function(y_pred.float(), labels.float())
                 loss.backward()
                 optimizer.step()
             with torch.no_grad():
@@ -292,7 +292,7 @@ def main():
                     labels = labels.to(device)
                     attention = attention.to(device)
                     y_pred = learner(sent_ids, attention)
-                    binary_preds = (y_pred>.5).squeeze().cpu().numpy()
+                    binary_preds = (y_pred>.5).cpu().numpy()
                     labels = labels.cpu().numpy()
                     all_preds.extend(binary_preds[labels!=-100])
                     all_labels.extend(labels[labels!=-100])

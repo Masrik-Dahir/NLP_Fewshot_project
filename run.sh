@@ -12,4 +12,4 @@ python -m venv venv
 source venv/bin/activate
 pip install -U pip setuptools wheel
 pip install -r requirements.txt
-python main.py --train_path ../preprocessed_data/train/ --test_path ../preprocessed_data/test/ --dev_path ../preprocessed_data/dev/ --k 5 --train
+python main.py --train_path ../preprocessed_data/train/ --test_path ../preprocessed_data/test/ --dev_path ../preprocessed_data/dev/ --k 5 --train --batch_size 1
