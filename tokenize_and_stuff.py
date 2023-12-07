@@ -6,7 +6,7 @@ def tokenize_bert(sentences, labels, max_len):
     all_sentence_ids = []
     all_sentence_labels = []
     all_attention_masks = []
-    tokenizer = BertTokenizerFast.from_pretrained( "bert-base-cased", do_lower_case=False)
+    tokenizer = BertTokenizerFast.from_pretrained( "bert-base-uncased", do_lower_case=False)
     
     for sentidx in range(len(sentences)):
         sent = sentences[sentidx]

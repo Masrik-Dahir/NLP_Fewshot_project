@@ -3,7 +3,7 @@
 #SBATCH --output=output.log
 #SBATCH --cpus-per-task=2
 #SBATCH --gpus=1
-#SBATCH --job-name=charlie_is_sad
+#SBATCH --job-name=unfrozenbert
 #SBATCH --time=14-00:00
 #SBATCH --qos=short
 

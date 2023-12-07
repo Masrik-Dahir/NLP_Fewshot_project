@@ -6,6 +6,8 @@ class NERModel(nn.Module):
     def __init__(self):
         super(NERModel, self).__init__()
         self.bert = BertModel.from_pretrained("bert-base-uncased") #bet
+        for param in self.bert.parameters():
+            param.requires_grad = False
         self.dropout = nn.Dropout(0.1)
         self.bilstm = nn.LSTM(input_size=768, hidden_size=100, num_layers=2, batch_first=True, bidirectional=True) #bilstn
         self.linear_layer = nn.Linear(200, 1)  # 100 * 2 (bidirectional) linear

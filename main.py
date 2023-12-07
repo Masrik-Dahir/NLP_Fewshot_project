@@ -1,7 +1,7 @@
 import argparse
 import matplotlib.pyplot as plt
 from model import MetaLearner, NERModel
-from preprocess import sentencize, filter_tasks
+from preprocess import sentencize, filter_tasks, clean_logits_and_labels
 from sklearn.metrics import classification_report
 from split import global_dictionary
 from task import TrainTask, TestTask, DevTask
@@ -92,10 +92,10 @@ def main():
             train_n_tasks_sents_and_labels[entity]["labels"].extend(labels)
 
     train_n_tasks_sents_and_labels = filter_tasks(train_n_tasks_sents_and_labels)
-    print("TRAIN STATISTICS - counts of sentences with each entity in them")
+    #print("TRAIN STATISTICS - counts of sentences with each entity in them")
     for task in train_n_tasks_sents_and_labels:
-        print(task)
-        print(len(train_n_tasks_sents_and_labels[task]["sents"]))
+        #print(task)
+        #print(len(train_n_tasks_sents_and_labels[task]["sents"]))
         assert(len(train_n_tasks_sents_and_labels[task]["sents"])==len(train_n_tasks_sents_and_labels[task]["labels"]))
 
     dev_n_tasks_sents_and_labels = {}
@@ -108,10 +108,10 @@ def main():
             dev_n_tasks_sents_and_labels[entity]["sents"].extend(sents)
             dev_n_tasks_sents_and_labels[entity]["labels"].extend(labels)
 
-    print("DEV STATISTICS - counts of sentences for each task (not necessarily having an entity in them)")
+    #print("DEV STATISTICS - counts of sentences for each task (not necessarily having an entity in them)")
     for task in dev_n_tasks_sents_and_labels:
-        print(task)
-        print(len(dev_n_tasks_sents_and_labels[task]["sents"]))
+        #print(task)
+        #print(len(dev_n_tasks_sents_and_labels[task]["sents"]))
         assert(len(dev_n_tasks_sents_and_labels[task]["sents"])==len(dev_n_tasks_sents_and_labels[task]["labels"]))
 
     test_n_tasks_sents_and_labels = {}
@@ -126,8 +126,8 @@ def main():
 
     print("TEST STATISTICS - counts of sentences for each task (not necessarily having an entity in them)")
     for task in test_n_tasks_sents_and_labels:
-        print(task)
-        print(len(test_n_tasks_sents_and_labels[task]["sents"]))
+        #print(task)
+        #print(len(test_n_tasks_sents_and_labels[task]["sents"]))
         assert(len(test_n_tasks_sents_and_labels[task]["sents"])==len(test_n_tasks_sents_and_labels[task]["labels"]))    
 
     text_train_tasks = {}
@@ -189,7 +189,8 @@ def main():
         train_losses = []
         dev_losses = []
         for epoch in range(epochs):
-            print("Epoch number: "+str(epoch))
+            with open("log.txt", "a+") as f:
+                f.write("\nEpoch number: "+str(epoch))
             meta_loss_total = 0.0
             for task in train_dataloader_support:
                 learner = MetaLearner()
@@ -202,6 +203,7 @@ def main():
                     attention = attention.to(device)
                     learner.zero_grad()
                     y_pred = learner(sent_ids, attention)
+                    y_pred, labels = clean_logits_and_labels(y_pred, labels)
                     loss = loss_function(y_pred.float(), labels.float())
                     loss.backward()
                     optimizer.step()
@@ -211,6 +213,7 @@ def main():
                     labels = labels.to(device)
                     attention = attention.to(device)
                     y_pred = learner(sent_ids, attention)
+                    y_pred, labels = clean_logits_and_labels(y_pred, labels)
                     loss = loss_function(y_pred.float(), labels.float())
                     meta_loss+=loss
                 meta_loss_total += meta_loss
@@ -220,7 +223,8 @@ def main():
             meta_loss_avg.backward()
             meta_optim.step()
             train_losses.append(meta_loss_avg)
-            print("Training loss average: "+str(meta_loss_avg))
+            with open("log.txt", "a+") as f:
+                f.write("\nTraining loss average: "+str(meta_loss_avg))
             meta_loss_total = 0.0
             for task in dev_dataloader_support:
                 learner = MetaLearner()
@@ -233,6 +237,7 @@ def main():
                     attention = attention.to(device)
                     learner.zero_grad()
                     y_pred = learner(sent_ids, attention)
+                    y_pred, labels = clean_logits_and_labels(y_pred, labels)
                     loss = loss_function(y_pred.float(), labels.float())
                     loss.backward()
                     optimizer.step()
@@ -243,20 +248,23 @@ def main():
                         labels = labels.to(device)
                         attention = attention.to(device)
                         y_pred = learner(sent_ids, attention)
+                        y_pred, labels = clean_logits_and_labels(y_pred, labels)
                         loss = loss_function(y_pred.float(), labels.float())
                         meta_loss+=loss
                     meta_loss_total+=meta_loss
             meta_loss_avg = meta_loss_total/len(dev_dataloader_query)
             dev_losses.append(meta_loss_avg)
-            print("Dev loss average: "+str(meta_loss_avg))
-            torch.save(meta_learner.state_dict(), "model_dumps/"+str(epoch)+".pth")
+            with open("log.txt", "a+") as f:
+                f.write("\nDev loss average: "+str(meta_loss_avg))
+            torch.save(meta_learner.state_dict(), "model_dumps/"+str(k)+"-shot-"+str(epoch)+".pth")
         min_val = None
         min_index = None
         for i in range(dev_losses):
             if min_val is None or dev_losses[i]<min_val:
                 min_val = dev_losses[i]
                 min_index=i
-        print("Best model is at epoch: "+str(min_index))
+        with open("log.txt", "a+") as f:
+            f.write("\nBest model is at epoch: "+str(min_index))
         plt.plot(train_losses, label="Avg Training Loss")
         plt.plot(dev_losses, label= "Avg Dev Loss")
         plt.legend()
@@ -281,6 +289,7 @@ def main():
                 attention = attention.to(device)
                 optimizer.zero_grad()
                 y_pred = learner(sent_ids, attention)
+                y_pred, labels = clean_logits_and_labels(y_pred, labels)
                 loss = loss_function(y_pred.float(), labels.float())
                 loss.backward()
                 optimizer.step()
@@ -296,7 +305,6 @@ def main():
                     labels = labels.cpu().numpy()
                     all_preds.extend(binary_preds[labels!=-100])
                     all_labels.extend(labels[labels!=-100])
-
                 with open(str(k)+"-shot"+task+"Report.txt", "w") as out:
                     out.write(classification_report(all_labels, all_preds, target_names=["O", task], labels=[0, 1]))
         
