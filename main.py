@@ -44,24 +44,38 @@ def main():
     k = args.k
     if k is None:
         k=5
+    else:
+        k = int(k)
     q=args.q
     if q is None:
         q=k*3
+    else:
+        q = int(q)
     max_len = args.max_len
     if max_len is None:
         max_len = 512
+    else:
+        max_len = int(max_len)
     batch_size = args.batch_size
     if batch_size is None:
         batch_size=5
+    else:
+        batch_size=int(batch_size)
     epochs = args.e
     if epochs is None:
         epochs = 100
+    else:
+        epochs = int(epochs)
     meta_lr = args.meta_lr
     if meta_lr is None:
         meta_lr = .001
+    else:
+        meta_lr = float(meta_lr)
     lr = args.lr
     if lr is None:
         lr = .1
+    else:
+        lr = float(lr)
     
     train_files = global_dictionary(train_path)
     dev_files = global_dictionary(dev_path)
