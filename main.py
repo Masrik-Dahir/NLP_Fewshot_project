@@ -1,6 +1,8 @@
 import argparse
+import matplotlib.pyplot as plt
 from model import MetaLearner, NERModel
 from preprocess import sentencize, filter_tasks
+from sklearn.metrics import classification_report
 from split import global_dictionary
 from task import TrainTask, TestTask, DevTask
 from tokenize_and_stuff import tokenize_bert
@@ -8,6 +10,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import TensorDataset, DataLoader
+
 meta_train_tasks = ["B-EXAMPLE_LABEL", "B-REACTION_PRODUCT", "B-STARTING_MATERIAL", "B-SOLVENT", "I-TIME", "B-WORKUP", "I-YIELD_OTHER", "B-YIELD_PERCENT", "I-REAGENT_CATALYST"]
 meta_dev_tasks = ["B-REAGENT_CATALYST", "B-REACTION_STEP", "B-TEMPERATURE", "I-TEMPERATURE"]
 meta_test_tasks = ["B-TIME", "I-STARTING_MATERIAL", "I-REACTION_PRODUCT", "B-YIELD_OTHER"]
@@ -27,10 +30,17 @@ def main():
     parser.add_argument("--e", help="number of epochs")
     parser.add_argument("--meta_lr", help="lr for metalearning")
     parser.add_argument("--lr", help="lr for inner loop")
+    parser.add_argument("--train", action="store_true", help="meta-training are you doing it")
+    parser.add_argument("--test", action="store_true", help="are you doin meta-testing")
+    parser.add_argument("--model_path",help="path to the model")
     args = parser.parse_args()
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
     train_path = args.train_path
     dev_path = args.dev_path
     test_path = args.test_path
+    train = args.train
+    test = args.test
+    model_path = args.model_path
     k = args.k
     if k is None:
         k=5
@@ -45,7 +55,13 @@ def main():
         batch_size=5
     epochs = args.e
     if epochs is None:
-        epochs = 500
+        epochs = 100
+    meta_lr = args.meta_lr
+    if meta_lr is None:
+        meta_lr = .001
+    lr = args.lr
+    if lr is None:
+        lr = .1
     
     train_files = global_dictionary(train_path)
     dev_files = global_dictionary(dev_path)
@@ -150,34 +166,127 @@ def main():
 
         query_dataset = TensorDataset(torch.LongTensor(query_sent_ids), torch.LongTensor(query_labels), torch.LongTensor(query_attention))
         test_dataloader_query[t] = DataLoader(query_dataset, batch_size=batch_size, shuffle=True)      
-    
+
     meta_learner = MetaLearner()
-    meta_optim = optim.Adam(meta_learner.parameters(), lr=.001)
-    loss_function = nn.BCELoss()
-    for epoch in range(epochs):
-        print("Epoch number: "+str(epoch))
-        meta_loss_total = 0.0
-        for task in train_dataloader_support:
+    meta_learner.to(device)
+    if train:
+        meta_optim = optim.Adam(meta_learner.parameters(), lr=meta_lr)
+        loss_function = nn.BCELoss()
+        train_losses = []
+        dev_losses = []
+        for epoch in range(epochs):
+            print("Epoch number: "+str(epoch))
+            meta_loss_total = 0.0
+            for task in train_dataloader_support:
+                learner = MetaLearner()
+                learner.load_state_dict(meta_learner.state_dict())
+                learner.to(device)
+                optimizer = optim.Adam(learner.parameters(), lr=lr)
+                for sent_ids, labels, attention in train_dataloader_support[task]:
+                    sent_ids = sent_ids.to(device)
+                    labels = labels.to(device)
+                    attention = attention.to(device)
+                    learner.zero_grad()
+                    y_pred = learner(sent_ids, attention)
+                    loss = loss_function(y_pred.squeeze().float(), labels.float())
+                    loss.backward()
+                    optimizer.step()
+                meta_loss = 0.0
+                for sent_ids, labels, attention in train_dataloader_query[task]:
+                    sent_ids = sent_ids.to(device)
+                    labels = labels.to(device)
+                    attention = attention.to(device)
+                    y_pred = learner(sent_ids, attention)
+                    loss = loss_function(y_pred.squeeze().float(), labels.float())
+                    meta_loss+=loss
+                meta_loss_total += meta_loss.item()
+            
+            meta_loss_avg = meta_loss_total / len(train_dataloader_query)
+            meta_optim.zero_grad()
+            meta_loss_avg.backward()
+            meta_optim.step()
+            train_losses.append(meta_loss_avg)
+            print("Training loss average: "+str(meta_loss_avg))
+            meta_loss_total = 0.0
+            for task in dev_dataloader_support:
+                learner = MetaLearner()
+                learner.load_state_dict(meta_learner.state_dict())
+                learner.to(device)
+                optimizer = optim.Adam(learner.parameters(), lr=lr)
+                for sent_ids, labels, attention in dev_dataloader_support[task]:
+                    sent_ids = sent_ids.to(device)
+                    labels = labels.to(device)
+                    attention = attention.to(device)
+                    learner.zero_grad()
+                    y_pred = learner(sent_ids, attention)
+                    loss = loss_function(y_pred.squeeze().float(), labels.float())
+                    loss.backward()
+                    optimizer.step()
+                meta_loss = 0.0
+                with torch.no_grad():
+                    for sent_ids, labels, attention in dev_dataloader_query[task]:
+                        sent_ids = sent_ids.to(device)
+                        labels = labels.to(device)
+                        attention = attention.to(device)
+                        y_pred = learner(sent_ids, attention)
+                        loss = loss_function(y_pred.squeeze().float(), labels.float())
+                        meta_loss+=loss
+                    meta_loss_total+=meta_loss.item()
+            meta_loss_avg = meta_loss_total/len(dev_dataloader_query)
+            dev_losses.append(meta_loss_avg)
+            print("Dev loss average: "+str(meta_loss_avg))
+            torch.save(meta_learner.state_dict(), "model_dumps/"+str(epoch)+".pth")
+        min_val = None
+        min_index = None
+        for i in range(dev_losses):
+            if min_val is None or dev_losses[i]<min_val:
+                min_val = dev_losses[i]
+                min_index=i
+        print("Best model is at epoch: "+str(min_index))
+        plt.plot(train_losses, label="Avg Training Loss")
+        plt.plot(dev_losses, label= "Avg Dev Loss")
+        plt.legend()
+        plt.xlabel("Epoch")
+        plt.ylabel("Loss")
+        plt.savefig(str(k)+"-shotLoss.png")
+        plt.close()
+    if test:
+        if not train:
+            meta_learner = MetaLearner()
+            meta_learner.load_state_dict(torch.load(model_path))
+            meta_learner.to(device)
+
+        for task in test_dataloader_support:
             learner = MetaLearner()
             learner.load_state_dict(meta_learner.state_dict())
-            optimizer = optim.Adam(learner.parameters(), lr=.1)
-            for sent_ids, labels, attention in train_dataloader_support[task]:
-                learner.zero_grad()
+            learner.to(device)
+            optimizer = optim.Adam(learner.parameters(), lr=lr)
+            for sent_ids, labels, attention in test_dataloader_support[task]:
+                sent_ids = sent_ids.to(device)
+                labels = labels.to(device)
+                attention = attention.to(device)
+                optimizer.zero_grad()
                 y_pred = learner(sent_ids, attention)
-                loss = loss_function(y_pred.float(), labels.float())
+                loss = loss_function(y_pred.squeeze().float(), labels.float())
                 loss.backward()
                 optimizer.step()
-            meta_loss = 0.0
-            for sent_ids, labels, attention in train_dataloader_query[task]:
-                y_pred = learner(sent_ids, attention)
-                loss = loss_function(y_pred.float(), labels.float())
-                meta_loss+=loss
-            meta_loss_total += meta_loss.item()
+            with torch.no_grad():
+                all_preds = []
+                all_labels = []
+                for sent_ids, labels, attention in test_dataloader_query[task]:
+                    sent_ids = sent_ids.to(device)
+                    labels = labels.to(device)
+                    attention = attention.to(device)
+                    y_pred = learner(sent_ids, attention)
+                    binary_preds = (y_pred>.5).squeeze().cpu().numpy()
+                    labels = labels.cpu().numpy()
+                    all_preds.extend(binary_preds[labels!=-100])
+                    all_labels.extend(labels[labels!=-100])
+
+                with open(str(k)+"-shot"+task+"Report.txt", "w") as out:
+                    out.write(classification_report(all_labels, all_preds, target_names=["O", task], labels=[0, 1]))
         
-        meta_loss_avg = meta_loss_total / len(train_dataloader_query)
-        meta_optim.zero_grad()
-        meta_loss_avg.backward()
-        meta_optim.step()
+            
 
     
 
