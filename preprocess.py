@@ -39,5 +39,5 @@ def filter_tasks(task_dict):
 def clean_logits_and_labels(logits, labels): #only works on batch size 1
     logits_clean = logits[labels!=-100]
     labels_clean = labels[labels!=-100]
-    return logits, labels
+    return logits_clean, labels_clean
 

@@ -180,16 +180,15 @@ def main():
 
         query_dataset = TensorDataset(torch.LongTensor(query_sent_ids), torch.LongTensor(query_labels), torch.LongTensor(query_attention))
         test_dataloader_query[t] = DataLoader(query_dataset, batch_size=batch_size, shuffle=True)      
-
+    loss_function = nn.BCELoss()
     meta_learner = MetaLearner()
     meta_learner.to(device)
     if train:
         meta_optim = optim.Adam(meta_learner.parameters(), lr=meta_lr)
-        loss_function = nn.BCELoss()
         train_losses = []
         dev_losses = []
         for epoch in range(epochs):
-            with open("log.txt", "a+") as f:
+            with open(str(k)+"-shotlog.txt", "a+") as f:
                 f.write("\nEpoch number: "+str(epoch))
             meta_loss_total = 0.0
             for task in train_dataloader_support:
@@ -223,7 +222,7 @@ def main():
             meta_loss_avg.backward()
             meta_optim.step()
             train_losses.append(meta_loss_avg)
-            with open("log.txt", "a+") as f:
+            with open(str(k)+"-shotlog.txt", "a+") as f:
                 f.write("\nTraining loss average: "+str(meta_loss_avg))
             meta_loss_total = 0.0
             for task in dev_dataloader_support:
@@ -254,24 +253,17 @@ def main():
                     meta_loss_total+=meta_loss
             meta_loss_avg = meta_loss_total/len(dev_dataloader_query)
             dev_losses.append(meta_loss_avg)
-            with open("log.txt", "a+") as f:
+            with open(str(k)+"-shotlog.txt", "a+") as f:
                 f.write("\nDev loss average: "+str(meta_loss_avg))
             torch.save(meta_learner.state_dict(), "model_dumps/"+str(k)+"-shot-"+str(epoch)+".pth")
         min_val = None
         min_index = None
-        for i in range(dev_losses):
+        for i in range(len(dev_losses)):
             if min_val is None or dev_losses[i]<min_val:
                 min_val = dev_losses[i]
                 min_index=i
-        with open("log.txt", "a+") as f:
+        with open(str(k)+"-shotlog.txt", "a+") as f:
             f.write("\nBest model is at epoch: "+str(min_index))
-        plt.plot(train_losses, label="Avg Training Loss")
-        plt.plot(dev_losses, label= "Avg Dev Loss")
-        plt.legend()
-        plt.xlabel("Epoch")
-        plt.ylabel("Loss")
-        plt.savefig(str(k)+"-shotLoss.png")
-        plt.close()
     if test:
         if not train:
             meta_learner = MetaLearner()
