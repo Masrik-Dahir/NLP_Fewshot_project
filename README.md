@@ -3,7 +3,8 @@
 The goal of this project is to utilize few shot learning for NER on the ChEMU dataset. See main.py header comment for more information :)
 
 
-**ONLY TESTED ON A SLURM MACHINE. RUNNING ON A NON SLURM MACHINE MAY HAVE UNEXPECTED BEHAVIORS.
+~~**ONLY TESTED ON A SLURM MACHINE. RUNNING ON A NON SLURM MACHINE MAY HAVE UNEXPECTED BEHAVIORS.~~
+If not running on a non SLURM machine, you should be able to just run ```sh train.sh``` and ```sh test.sh``` instead of ```sbatch train.sh``` and ```sbatch test.sh```
 ## Training & testing from scratch k=5
 1. replace data paths in train.sh to where your data is located (ALL OF THEM ARE NEEDED)
 2. run ```sbatch train.sh``` to completion
