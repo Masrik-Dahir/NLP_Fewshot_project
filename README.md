@@ -1,11 +1,37 @@
 # NLP_Fewshot_project
 ## Description
-The goal of this project is to utilize few shot learning for NER on the ChEMU dataset.
+The goal of this project is to utilize few shot learning for NER on the ChEMU dataset. See main.py header comment for more information :)
 
 
 **ONLY TESTED ON A SLURM MACHINE. RUNNING ON A NON SLURM MACHINE MAY HAVE UNEXPECTED BEHAVIORS.
-## Recreating the k=5 experiments:
-1. Run ```sbatch train.sh``` until completion (You don't have to do this, because we have the best model saved in model_dumps already) **YOU HAVE TO CHANGE THE PATHS TO THE DATASETS IN THE SH FILE
-2. Run ```sbatch test.sh``` until completion **YOU HAVE TO CHANGE THE PATHS TO THE DATASETS IN THE SH FILE
+## Training & testing from scratch k=5
+1. replace data paths in train.sh to where your data is located (ALL OF THEM ARE NEEDED)
+2. run ```sbatch train.sh``` to completion
+3. check 5-shotlog.txt. It's in the project root directory. At the bottom there will be a printed line that says what model is the best (which epoch)
+4. replace data paths in test.sh to where your data is located (ALL OF THEM ARE NEEDED)
+5. replace model_dumps/5-shot-78.pth with model_dumps/5-shot-{best_epoch_num}.pth in test.sh
+6. run ```sbatch test.sh``` to completion
+7. Check out reports per task in project root directory. They will look sort of like the report format in the reports directory
 
-You can do the same with k=25, just replace the k argument in the sh files with 25. If you are only testing, you may want to specify our best model for model_path for 25-shot which will be in model_dumps
+## Testing using pretrained k=5 model
+0. Get pretrained model from Char, put it in model_dumps
+1. replace data paths in test.sh to where your data is located (ALL OF THEM ARE NEEDED)
+2. run ```sbatch test.sh``` to completion
+3. Check out reports per task in project root directory. They will look sort of like the report format in the reports directory
+
+## Training & testing from scratch k=25
+1. replace data paths in train.sh to where your data is located (ALL OF THEM ARE NEEDED)
+2. run ```sbatch train.sh``` to completion
+3. check 25-shotlog.txt. It's in the project root directory. At the bottom there will be a printed line that says what model is the best (which epoch)
+4. replace data paths in test.sh to where your data is located (ALL OF THEM ARE NEEDED)
+5. replace model_dumps/5-shot-78.pth with model_dumps/25-shot-{best_epoch_num}.pth in test.sh
+6. run ```sbatch test.sh``` to completion
+7. Check out reports per task in project root directory. They will look sort of like the report format in the reports directory
+
+## Testing using pretrained k=25 model
+0. Get pretrained model from Char, put it in model_dumps
+1. replace data paths in test.sh to where your data is located (ALL OF THEM ARE NEEDED)
+2. replace model_dumps/5-shot-78.pth with model_dumps/25-shot-12.pth in test.sh
+3. replace k value with 25
+4. run ```sbatch test.sh``` to completion
+5. Check out reports per task in project root directory, They will look sort of like the report format in the reports directory
