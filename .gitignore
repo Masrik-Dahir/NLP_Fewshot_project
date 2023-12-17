@@ -4,10 +4,7 @@ __pycache__
 *.xml
 venv/*
 .idea/*
-thing.png
 model_dumps/*.pth
-test_report.txt
-output.log
 Entity/code_test/*
 Entity/dev_data/*
 Entity/train_data/*

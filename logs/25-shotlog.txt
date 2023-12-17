@@ -1,302 +1,302 @@
 
 Epoch number: 0
-Training loss average: tensor(27.5169, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1231.5266, device='cuda:0')
+Training loss average: tensor(12.5110, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1774.0524, device='cuda:0')
 Epoch number: 1
-Training loss average: tensor(34.3005, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(2232.3359, device='cuda:0')
+Training loss average: tensor(11.1520, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1961.8335, device='cuda:0')
 Epoch number: 2
-Training loss average: tensor(29.2538, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(2137.1169, device='cuda:0')
+Training loss average: tensor(11.5791, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1936.3271, device='cuda:0')
 Epoch number: 3
-Training loss average: tensor(38.4446, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(2430.0725, device='cuda:0')
+Training loss average: tensor(11.4960, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1910.0601, device='cuda:0')
 Epoch number: 4
-Training loss average: tensor(41.0874, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(4484.9590, device='cuda:0')
+Training loss average: tensor(11.4014, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1744.2052, device='cuda:0')
 Epoch number: 5
-Training loss average: tensor(41.6438, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(3256.9595, device='cuda:0')
+Training loss average: tensor(12.1765, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(2182.4517, device='cuda:0')
 Epoch number: 6
-Training loss average: tensor(44.6450, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1508.1023, device='cuda:0')
+Training loss average: tensor(14.5396, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(2113.7932, device='cuda:0')
 Epoch number: 7
-Training loss average: tensor(28.8815, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1312.0518, device='cuda:0')
+Training loss average: tensor(10.8446, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1369.1086, device='cuda:0')
 Epoch number: 8
-Training loss average: tensor(46.3479, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(3930.5649, device='cuda:0')
+Training loss average: tensor(13.2590, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1653.3008, device='cuda:0')
 Epoch number: 9
-Training loss average: tensor(47.2738, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1767.8628, device='cuda:0')
+Training loss average: tensor(11.8325, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(2228.5125, device='cuda:0')
 Epoch number: 10
-Training loss average: tensor(44.5321, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(5532.3315, device='cuda:0')
+Training loss average: tensor(11.3055, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1638.1857, device='cuda:0')
 Epoch number: 11
-Training loss average: tensor(52.9254, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(2401.4077, device='cuda:0')
+Training loss average: tensor(12.3274, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1784.2455, device='cuda:0')
 Epoch number: 12
-Training loss average: tensor(35.0014, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(4438.9243, device='cuda:0')
+Training loss average: tensor(13.2955, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1263.8441, device='cuda:0')
 Epoch number: 13
-Training loss average: tensor(42.9859, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(4156.9346, device='cuda:0')
+Training loss average: tensor(12.1947, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1380.8486, device='cuda:0')
 Epoch number: 14
-Training loss average: tensor(35.6318, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(2021.6586, device='cuda:0')
+Training loss average: tensor(15.3941, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1687.9750, device='cuda:0')
 Epoch number: 15
-Training loss average: tensor(40.9483, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1935.0391, device='cuda:0')
+Training loss average: tensor(12.6079, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(2150.9868, device='cuda:0')
 Epoch number: 16
-Training loss average: tensor(47.4596, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1645.6450, device='cuda:0')
+Training loss average: tensor(13.9234, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1553.5452, device='cuda:0')
 Epoch number: 17
-Training loss average: tensor(51.6487, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1100.1527, device='cuda:0')
+Training loss average: tensor(13.0552, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1792.7366, device='cuda:0')
 Epoch number: 18
-Training loss average: tensor(38.5058, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(2151.3745, device='cuda:0')
+Training loss average: tensor(14.9815, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1659.9871, device='cuda:0')
 Epoch number: 19
-Training loss average: tensor(89.3353, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1736.8903, device='cuda:0')
+Training loss average: tensor(16.2662, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1890.1993, device='cuda:0')
 Epoch number: 20
-Training loss average: tensor(32.7076, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1274.4991, device='cuda:0')
+Training loss average: tensor(14.5431, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1472.0425, device='cuda:0')
 Epoch number: 21
-Training loss average: tensor(32.8083, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(2077.8914, device='cuda:0')
+Training loss average: tensor(14.1159, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(2151.1870, device='cuda:0')
 Epoch number: 22
-Training loss average: tensor(45.8141, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(2320.0295, device='cuda:0')
+Training loss average: tensor(13.0374, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1388.6194, device='cuda:0')
 Epoch number: 23
-Training loss average: tensor(49.0341, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1282.1796, device='cuda:0')
+Training loss average: tensor(10.2391, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1636.2531, device='cuda:0')
 Epoch number: 24
-Training loss average: tensor(53.9043, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(2836.5327, device='cuda:0')
+Training loss average: tensor(14.6173, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1673.5889, device='cuda:0')
 Epoch number: 25
-Training loss average: tensor(55.7739, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(4182.6992, device='cuda:0')
+Training loss average: tensor(11.9955, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1570.0496, device='cuda:0')
 Epoch number: 26
-Training loss average: tensor(44.3301, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1698.6740, device='cuda:0')
+Training loss average: tensor(14.0073, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(2242.7856, device='cuda:0')
 Epoch number: 27
-Training loss average: tensor(32.1162, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(2617.4470, device='cuda:0')
+Training loss average: tensor(13.0626, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(2551.5559, device='cuda:0')
 Epoch number: 28
-Training loss average: tensor(57.6677, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(2568.1394, device='cuda:0')
+Training loss average: tensor(12.0354, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1519.7362, device='cuda:0')
 Epoch number: 29
-Training loss average: tensor(29.1638, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1368.4159, device='cuda:0')
+Training loss average: tensor(14.8845, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1943.7651, device='cuda:0')
 Epoch number: 30
-Training loss average: tensor(38.9869, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(2772.0483, device='cuda:0')
+Training loss average: tensor(15.8040, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1707.7654, device='cuda:0')
 Epoch number: 31
-Training loss average: tensor(62.9187, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1329.7611, device='cuda:0')
+Training loss average: tensor(14.3934, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1908.5063, device='cuda:0')
 Epoch number: 32
-Training loss average: tensor(48.3008, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(3035.6528, device='cuda:0')
+Training loss average: tensor(14.1492, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1464.1169, device='cuda:0')
 Epoch number: 33
-Training loss average: tensor(51.7628, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1101.5432, device='cuda:0')
+Training loss average: tensor(14.1115, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1661.0139, device='cuda:0')
 Epoch number: 34
-Training loss average: tensor(43.9035, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1875.2335, device='cuda:0')
+Training loss average: tensor(12.0154, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1614.3391, device='cuda:0')
 Epoch number: 35
-Training loss average: tensor(36.6556, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(2023.9568, device='cuda:0')
+Training loss average: tensor(13.6316, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1658.0089, device='cuda:0')
 Epoch number: 36
-Training loss average: tensor(30.0680, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(4489.9619, device='cuda:0')
+Training loss average: tensor(13.3720, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1457.8772, device='cuda:0')
 Epoch number: 37
-Training loss average: tensor(29.1944, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(2766.9832, device='cuda:0')
+Training loss average: tensor(14.1935, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1764.3322, device='cuda:0')
 Epoch number: 38
-Training loss average: tensor(28.5930, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1883.6094, device='cuda:0')
+Training loss average: tensor(13.8733, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1900.3595, device='cuda:0')
 Epoch number: 39
-Training loss average: tensor(41.9768, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1898.0930, device='cuda:0')
+Training loss average: tensor(13.1681, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1867.1235, device='cuda:0')
 Epoch number: 40
-Training loss average: tensor(33.7582, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(2009.0969, device='cuda:0')
+Training loss average: tensor(13.6203, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1606.8530, device='cuda:0')
 Epoch number: 41
-Training loss average: tensor(46.2007, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1326.8234, device='cuda:0')
+Training loss average: tensor(12.4529, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1672.3525, device='cuda:0')
 Epoch number: 42
-Training loss average: tensor(66.7226, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(3101.5103, device='cuda:0')
+Training loss average: tensor(13.9797, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(2405.4807, device='cuda:0')
 Epoch number: 43
-Training loss average: tensor(46.6670, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1078.4230, device='cuda:0')
+Training loss average: tensor(14.0782, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1757.5138, device='cuda:0')
 Epoch number: 44
-Training loss average: tensor(33.3905, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1438.4164, device='cuda:0')
+Training loss average: tensor(11.8708, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1548.3789, device='cuda:0')
 Epoch number: 45
-Training loss average: tensor(45.1439, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(2159.7715, device='cuda:0')
+Training loss average: tensor(13.3599, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(2499.9126, device='cuda:0')
 Epoch number: 46
-Training loss average: tensor(43.8834, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1478.1707, device='cuda:0')
+Training loss average: tensor(13.9685, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1765.0200, device='cuda:0')
 Epoch number: 47
-Training loss average: tensor(34.4944, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(898.3766, device='cuda:0')
+Training loss average: tensor(12.8078, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1417.8058, device='cuda:0')
 Epoch number: 48
-Training loss average: tensor(42.0035, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1349.0605, device='cuda:0')
+Training loss average: tensor(16.0111, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1860.9897, device='cuda:0')
 Epoch number: 49
-Training loss average: tensor(58.5186, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(2737.3584, device='cuda:0')
+Training loss average: tensor(15.5735, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1462.6837, device='cuda:0')
 Epoch number: 50
-Training loss average: tensor(47.6397, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(2403.0596, device='cuda:0')
+Training loss average: tensor(12.7703, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1932.9958, device='cuda:0')
 Epoch number: 51
-Training loss average: tensor(59.8947, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1936.6906, device='cuda:0')
+Training loss average: tensor(11.8353, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(2226.4819, device='cuda:0')
 Epoch number: 52
-Training loss average: tensor(41.7714, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1292.5334, device='cuda:0')
+Training loss average: tensor(13.2246, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(2227.1924, device='cuda:0')
 Epoch number: 53
-Training loss average: tensor(38.8492, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(2172.8335, device='cuda:0')
+Training loss average: tensor(12.5331, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1772.2336, device='cuda:0')
 Epoch number: 54
-Training loss average: tensor(55.9909, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1223.1775, device='cuda:0')
+Training loss average: tensor(13.5894, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1452.3154, device='cuda:0')
 Epoch number: 55
-Training loss average: tensor(54.3599, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1287.1089, device='cuda:0')
+Training loss average: tensor(13.5159, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1528.2428, device='cuda:0')
 Epoch number: 56
-Training loss average: tensor(49.1931, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(2584.3340, device='cuda:0')
+Training loss average: tensor(16.0679, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1743.6641, device='cuda:0')
 Epoch number: 57
-Training loss average: tensor(31.0908, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1218.2744, device='cuda:0')
+Training loss average: tensor(14.6831, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1532.8676, device='cuda:0')
 Epoch number: 58
-Training loss average: tensor(39.9250, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(2749.9255, device='cuda:0')
+Training loss average: tensor(14.3269, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1712.3601, device='cuda:0')
 Epoch number: 59
-Training loss average: tensor(31.8851, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(992.0656, device='cuda:0')
+Training loss average: tensor(15.1888, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1730.9675, device='cuda:0')
 Epoch number: 60
-Training loss average: tensor(30.5594, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1564.2762, device='cuda:0')
+Training loss average: tensor(15.3054, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1614.0635, device='cuda:0')
 Epoch number: 61
-Training loss average: tensor(31.5772, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1225.3904, device='cuda:0')
+Training loss average: tensor(14.4385, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1932.2693, device='cuda:0')
 Epoch number: 62
-Training loss average: tensor(39.7894, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(2017.4432, device='cuda:0')
+Training loss average: tensor(13.5164, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1741.5413, device='cuda:0')
 Epoch number: 63
-Training loss average: tensor(49.7003, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(2975.4089, device='cuda:0')
+Training loss average: tensor(13.2167, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1783.6570, device='cuda:0')
 Epoch number: 64
-Training loss average: tensor(28.8136, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(2402.7441, device='cuda:0')
+Training loss average: tensor(16.2435, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(2160.4824, device='cuda:0')
 Epoch number: 65
-Training loss average: tensor(38.8019, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1062.0193, device='cuda:0')
+Training loss average: tensor(11.7879, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1579.5642, device='cuda:0')
 Epoch number: 66
-Training loss average: tensor(28.0401, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1635.0399, device='cuda:0')
+Training loss average: tensor(12.1442, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1801.8387, device='cuda:0')
 Epoch number: 67
-Training loss average: tensor(54.4705, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1196.2548, device='cuda:0')
+Training loss average: tensor(11.9525, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(2057.1353, device='cuda:0')
 Epoch number: 68
-Training loss average: tensor(39.1299, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(9028.2109, device='cuda:0')
+Training loss average: tensor(13.0376, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1841.2794, device='cuda:0')
 Epoch number: 69
-Training loss average: tensor(26.3917, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(6025.3647, device='cuda:0')
+Training loss average: tensor(12.0228, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(2085.1777, device='cuda:0')
 Epoch number: 70
-Training loss average: tensor(44.2823, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(3201.8447, device='cuda:0')
+Training loss average: tensor(13.8076, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1555.7468, device='cuda:0')
 Epoch number: 71
-Training loss average: tensor(34.8682, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(900.2600, device='cuda:0')
+Training loss average: tensor(11.2899, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1724.2964, device='cuda:0')
 Epoch number: 72
-Training loss average: tensor(43.7796, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1075.6213, device='cuda:0')
+Training loss average: tensor(11.9816, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1715.1035, device='cuda:0')
 Epoch number: 73
-Training loss average: tensor(45.0299, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(7159.1709, device='cuda:0')
+Training loss average: tensor(13.1173, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1734.3461, device='cuda:0')
 Epoch number: 74
-Training loss average: tensor(50.8029, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1301.0315, device='cuda:0')
+Training loss average: tensor(12.1789, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1589.6306, device='cuda:0')
 Epoch number: 75
-Training loss average: tensor(27.9871, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(2272.2329, device='cuda:0')
+Training loss average: tensor(14.0315, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1781.1255, device='cuda:0')
 Epoch number: 76
-Training loss average: tensor(29.2881, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(2163.9202, device='cuda:0')
+Training loss average: tensor(12.8877, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(2188.8574, device='cuda:0')
 Epoch number: 77
-Training loss average: tensor(60.5666, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(2363.4246, device='cuda:0')
+Training loss average: tensor(14.2155, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1755.9170, device='cuda:0')
 Epoch number: 78
-Training loss average: tensor(49.3412, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(10499.4277, device='cuda:0')
+Training loss average: tensor(12.7403, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1817.8707, device='cuda:0')
 Epoch number: 79
-Training loss average: tensor(25.0489, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(873.1379, device='cuda:0')
+Training loss average: tensor(13.4700, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1587.5566, device='cuda:0')
 Epoch number: 80
-Training loss average: tensor(38.7883, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(2305.1792, device='cuda:0')
+Training loss average: tensor(13.3039, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1887.4227, device='cuda:0')
 Epoch number: 81
-Training loss average: tensor(44.9213, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(3801.8770, device='cuda:0')
+Training loss average: tensor(11.4313, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1736.8739, device='cuda:0')
 Epoch number: 82
-Training loss average: tensor(32.9766, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(2049.3181, device='cuda:0')
+Training loss average: tensor(11.1896, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1464.8403, device='cuda:0')
 Epoch number: 83
-Training loss average: tensor(43.0891, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1068.3409, device='cuda:0')
+Training loss average: tensor(11.7168, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1566.3975, device='cuda:0')
 Epoch number: 84
-Training loss average: tensor(26.6850, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(2520.0667, device='cuda:0')
+Training loss average: tensor(12.9782, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1472.8486, device='cuda:0')
 Epoch number: 85
-Training loss average: tensor(37.7191, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1720.5005, device='cuda:0')
+Training loss average: tensor(15.8736, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(2238.6597, device='cuda:0')
 Epoch number: 86
-Training loss average: tensor(32.5616, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1066.0594, device='cuda:0')
+Training loss average: tensor(14.6266, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1898.4651, device='cuda:0')
 Epoch number: 87
-Training loss average: tensor(56.0601, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(2311.8921, device='cuda:0')
+Training loss average: tensor(11.9606, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1723.3008, device='cuda:0')
 Epoch number: 88
-Training loss average: tensor(37.1075, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1219.4181, device='cuda:0')
+Training loss average: tensor(13.3512, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1527.0266, device='cuda:0')
 Epoch number: 89
-Training loss average: tensor(61.1610, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1370.2397, device='cuda:0')
+Training loss average: tensor(13.9061, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(2314.4314, device='cuda:0')
 Epoch number: 90
-Training loss average: tensor(42.7073, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1132.4172, device='cuda:0')
+Training loss average: tensor(13.8392, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1756.5466, device='cuda:0')
 Epoch number: 91
-Training loss average: tensor(31.7807, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1099.3401, device='cuda:0')
+Training loss average: tensor(12.9793, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(2106.0894, device='cuda:0')
 Epoch number: 92
-Training loss average: tensor(51.5964, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1436.0667, device='cuda:0')
+Training loss average: tensor(12.6268, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1488.7499, device='cuda:0')
 Epoch number: 93
-Training loss average: tensor(32.0764, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1378.6071, device='cuda:0')
+Training loss average: tensor(14.3652, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1522.4722, device='cuda:0')
 Epoch number: 94
-Training loss average: tensor(51.3034, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(2087.7576, device='cuda:0')
+Training loss average: tensor(11.6784, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(2274.3555, device='cuda:0')
 Epoch number: 95
-Training loss average: tensor(53.1621, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1371.6812, device='cuda:0')
+Training loss average: tensor(14.0141, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1379.9495, device='cuda:0')
 Epoch number: 96
-Training loss average: tensor(46.2695, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(2216.0137, device='cuda:0')
+Training loss average: tensor(10.9068, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1602.5486, device='cuda:0')
 Epoch number: 97
-Training loss average: tensor(30.7815, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1849.5128, device='cuda:0')
+Training loss average: tensor(13.2872, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1304.4297, device='cuda:0')
 Epoch number: 98
-Training loss average: tensor(28.7472, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(891.8947, device='cuda:0')
+Training loss average: tensor(11.4900, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1858.0134, device='cuda:0')
 Epoch number: 99
-Training loss average: tensor(34.3342, device='cuda:0', grad_fn=<DivBackward0>)
-Dev loss average: tensor(1521.6561, device='cuda:0')
-Best model is at epoch: 79
+Training loss average: tensor(11.7142, device='cuda:0', grad_fn=<DivBackward0>)
+Dev loss average: tensor(1840.9141, device='cuda:0')
+Best model is at epoch: 12

@@ -1,3 +1,35 @@
+"""
+Charie Dil, Nourchene Bargaoui, Masrik Dahir - 12/17/2023
+
+Problem statement: NER is the task of identifying key terms in text, and it typically requires large columes of data. Acquiring annotated data is expensive and time consuming. We can use few-shot learing to address this problem! Specifically, we address the problem from a meta-learning standpoint. We have meta-training tasks and meta-testing tasks, and using k examples for n classes in each meta-training task, we want to generalize our model to handle new unseen tasks with limited support (k labeled examples). We implement an optimization-based approach called MAML (Model Agnostic Meta Learning) to address this problem. We experimen with N 2-way 5-shot and N 2-way 25-shot frameworks.
+
+Example of input file:
+Example	O
+194	B-EXAMPLE_LABEL
+3-Isobutyl-5-methyl-1-(oxetan-2-ylmethyl)-6-[(2-oxoimidazolidin-1-yl)methyl]thieno[2,3-d]pyrimidine-2,4(1H,3H)-dione	B-REACTION_PRODUCT
+(racemate)	I-REACTION_PRODUCT
+813	O
+...
+
+Example of output: See reports folder
+
+Usage Instructions: see README.md
+
+Architecture/Algorithm
+BASE MODEL:
+    Frozen BERT. BiLSTM. Linear Layer
+
+META_TRAINING:
+    start with randomly initialized parameters for model. copy that model for each task. train on k support examples. evaluate meta-loss on query set. average the losses, backpropagate on the general model.
+
+META_VALIDATION:
+    take model at end of each epoch, make a copy of the overall model for each task, train on the validation support k-examples, evaluate meta-loss on the query set. average te losses, output. NO BACKPROP ON GENERAL MODEL
+
+META_TESTING:
+    Same as validation, except instead of meta_loss, just pass in predicted versus actual to classification report to get scores
+
+"""
+
 import argparse
 import matplotlib.pyplot as plt
 from model import MetaLearner, NERModel
@@ -5,18 +37,20 @@ from preprocess import sentencize, filter_tasks, clean_logits_and_labels
 from sklearn.metrics import classification_report
 from split import global_dictionary
 from task import TrainTask, TestTask, DevTask
-from tokenize_and_stuff import tokenize_bert
+from tokenize_and_stuff import tokenize_bert, calculate_class_weights
 import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import TensorDataset, DataLoader
 
+#random task distribution
 meta_train_tasks = ["B-EXAMPLE_LABEL", "B-REACTION_PRODUCT", "B-STARTING_MATERIAL", "B-SOLVENT", "I-TIME", "B-WORKUP", "I-YIELD_OTHER", "B-YIELD_PERCENT", "I-REAGENT_CATALYST"]
 meta_dev_tasks = ["B-REAGENT_CATALYST", "B-REACTION_STEP", "B-TEMPERATURE", "I-TEMPERATURE"]
 meta_test_tasks = ["B-TIME", "I-STARTING_MATERIAL", "I-REACTION_PRODUCT", "B-YIELD_OTHER"]
 
 
 def main():
+    #command line stuff
     parser = argparse.ArgumentParser(
                     prog='python main.py',
                     description='Baseline NER system for CHEMU dataset')
@@ -76,11 +110,11 @@ def main():
         lr = .1
     else:
         lr = float(lr)
-    
+    #mapping files to different task "datasets"
     train_files = global_dictionary(train_path)
     dev_files = global_dictionary(dev_path)
     test_files = global_dictionary(test_path)
-
+    #used for storing the actual generalized sentence and labels after sentencizing them
     train_n_tasks_sents_and_labels = {}
 
     for file in train_files:
@@ -90,7 +124,7 @@ def main():
             sents, labels = sentencize(train_files[file][entity])
             train_n_tasks_sents_and_labels[entity]["sents"].extend(sents)
             train_n_tasks_sents_and_labels[entity]["labels"].extend(labels)
-
+#we just want sentences with target labels in them in our training dataset
     train_n_tasks_sents_and_labels = filter_tasks(train_n_tasks_sents_and_labels)
     #print("TRAIN STATISTICS - counts of sentences with each entity in them")
     for task in train_n_tasks_sents_and_labels:
@@ -99,7 +133,7 @@ def main():
         assert(len(train_n_tasks_sents_and_labels[task]["sents"])==len(train_n_tasks_sents_and_labels[task]["labels"]))
 
     dev_n_tasks_sents_and_labels = {}
-
+#same thing as above fo dev, except wihtout the filtration step
     for file in dev_files:
         for entity in dev_files[file]:
             if entity not in dev_n_tasks_sents_and_labels:
@@ -113,7 +147,7 @@ def main():
         #print(task)
         #print(len(dev_n_tasks_sents_and_labels[task]["sents"]))
         assert(len(dev_n_tasks_sents_and_labels[task]["sents"])==len(dev_n_tasks_sents_and_labels[task]["labels"]))
-
+#same thing with test
     test_n_tasks_sents_and_labels = {}
 
     for file in test_files:
@@ -129,7 +163,7 @@ def main():
         #print(task)
         #print(len(test_n_tasks_sents_and_labels[task]["sents"]))
         assert(len(test_n_tasks_sents_and_labels[task]["sents"])==len(test_n_tasks_sents_and_labels[task]["labels"]))    
-
+#build objects (task should consist of a support set and query set)
     text_train_tasks = {}
     text_dev_tasks = {}
     text_test_tasks = {}
@@ -139,6 +173,7 @@ def main():
         text_dev_tasks[task] = DevTask(dev_n_tasks_sents_and_labels[task], k)
     for task in meta_test_tasks:
         text_test_tasks[task] = TestTask(train_n_tasks_sents_and_labels[task], test_n_tasks_sents_and_labels[task], k)
+        #store dataloaders
     train_dataloader_support = {}
     train_dataloader_query = {}
 
@@ -148,17 +183,18 @@ def main():
     test_dataloader_support = {}
     test_dataloader_query = {}
     for t in text_train_tasks:
-
+#tokenize w bert tokenizer
         support_sent_ids, support_labels, support_attention = tokenize_bert(text_train_tasks[t].support_sentences, text_train_tasks[t].support_labels, max_len)
-
+#create tensor datasets
         support_dataset = TensorDataset(torch.LongTensor(support_sent_ids), torch.LongTensor(support_labels), torch.LongTensor(support_attention))
+        #create dataloader for train support
         train_dataloader_support[t] = DataLoader(support_dataset, batch_size=batch_size, shuffle=True)
-
+        #same process with query train
         query_sent_ids, query_labels, query_attention = tokenize_bert(text_train_tasks[t].query_sentences, text_train_tasks[t].query_labels, max_len)
 
         query_dataset = TensorDataset(torch.LongTensor(query_sent_ids), torch.LongTensor(query_labels), torch.LongTensor(query_attention))
         train_dataloader_query[t] = DataLoader(query_dataset, batch_size=batch_size, shuffle=True)
-    
+    #now same thing on dev tasks
     for t in text_dev_tasks:
         support_sent_ids, support_labels, support_attention = tokenize_bert(text_dev_tasks[t].support_sentences, text_dev_tasks[t].support_labels, max_len)
 
@@ -169,7 +205,7 @@ def main():
 
         query_dataset = TensorDataset(torch.LongTensor(query_sent_ids), torch.LongTensor(query_labels), torch.LongTensor(query_attention))
         dev_dataloader_query[t] = DataLoader(query_dataset, batch_size=batch_size, shuffle=True)
-
+#now same thing for test
     for t in text_test_tasks:
         support_sent_ids, support_labels, support_attention = tokenize_bert(text_test_tasks[t].support_sentences, text_test_tasks[t].support_labels, max_len)
 
@@ -179,52 +215,58 @@ def main():
         query_sent_ids, query_labels, query_attention = tokenize_bert(text_test_tasks[t].query_sentences, text_test_tasks[t].query_labels, max_len)
 
         query_dataset = TensorDataset(torch.LongTensor(query_sent_ids), torch.LongTensor(query_labels), torch.LongTensor(query_attention))
-        test_dataloader_query[t] = DataLoader(query_dataset, batch_size=batch_size, shuffle=True)      
-    loss_function = nn.BCELoss()
+        test_dataloader_query[t] = DataLoader(query_dataset, batch_size=batch_size, shuffle=True)
     meta_learner = MetaLearner()
     meta_learner.to(device)
-    if train:
-        meta_optim = optim.Adam(meta_learner.parameters(), lr=meta_lr)
-        train_losses = []
+    if train: #training flag is true
+        meta_optim = optim.Adam(meta_learner.parameters(), lr=meta_lr)#adam optim
+        train_losses = []#saving losses for graphing
         dev_losses = []
         for epoch in range(epochs):
             with open(str(k)+"-shotlog.txt", "a+") as f:
-                f.write("\nEpoch number: "+str(epoch))
-            meta_loss_total = 0.0
+                f.write("\nEpoch number: "+str(epoch))#custom log file
+            meta_loss_total = 0.0#we sum up the losses on the query set here
             for task in train_dataloader_support:
-                learner = MetaLearner()
-                learner.load_state_dict(meta_learner.state_dict())
-                learner.to(device)
-                optimizer = optim.Adam(learner.parameters(), lr=lr)
-                for sent_ids, labels, attention in train_dataloader_support[task]:
-                    sent_ids = sent_ids.to(device)
+                learner = MetaLearner()#init metaleraner
+                learner.load_state_dict(meta_learner.state_dict())#copy
+                learner.to(device)#gpu time! if possible
+                optimizer = optim.Adam(learner.parameters(), lr=lr)#optimizer for learner
+                for sent_ids, labels, attention in train_dataloader_support[task]:#go through the dataloader
+                    sent_ids = sent_ids.to(device)#send everything to the gpu if applicable
                     labels = labels.to(device)
                     attention = attention.to(device)
-                    learner.zero_grad()
-                    y_pred = learner(sent_ids, attention)
-                    y_pred, labels = clean_logits_and_labels(y_pred, labels)
-                    loss = loss_function(y_pred.float(), labels.float())
-                    loss.backward()
-                    optimizer.step()
+                    learner.zero_grad()#zero grad
+                    y_pred = learner(sent_ids, attention)#predict
+                    y_pred, labels = clean_logits_and_labels(y_pred, labels)#remove -100
+                    cw = calculate_class_weights(labels)#calculate class weights
+                    loss_function = nn.BCELoss(weight = cw)#init loss function with custom weights
+
+                    loss = loss_function(y_pred.float(), labels.float())#calculate the loss
+                    loss.backward()#calculate grads
+                    optimizer.step()#update accordingly
                 meta_loss = 0.0
                 for sent_ids, labels, attention in train_dataloader_query[task]:
+                    #same idea here but no immediate backprop
                     sent_ids = sent_ids.to(device)
                     labels = labels.to(device)
                     attention = attention.to(device)
                     y_pred = learner(sent_ids, attention)
                     y_pred, labels = clean_logits_and_labels(y_pred, labels)
+                    cw = calculate_class_weights(labels)
+                    loss_function = nn.BCELoss(weight=cw)
+
                     loss = loss_function(y_pred.float(), labels.float())
-                    meta_loss+=loss
-                meta_loss_total += meta_loss
-            
+                    meta_loss+=loss#sum up the losses per the whole task
+                meta_loss_total += meta_loss#add up the sum for each task
+            #NOTE here we take the average
             meta_loss_avg = meta_loss_total / len(train_dataloader_query)
-            meta_optim.zero_grad()
-            meta_loss_avg.backward()
-            meta_optim.step()
+            meta_optim.zero_grad()#zero grad
+            meta_loss_avg.backward()#backprop on the avg
+            meta_optim.step()#grad descent
             train_losses.append(meta_loss_avg)
             with open(str(k)+"-shotlog.txt", "a+") as f:
                 f.write("\nTraining loss average: "+str(meta_loss_avg))
-            meta_loss_total = 0.0
+            meta_loss_total = 0.0#same sort of idea, except we don't do the outer loop gradient descent thing
             for task in dev_dataloader_support:
                 learner = MetaLearner()
                 learner.load_state_dict(meta_learner.state_dict())
@@ -237,6 +279,10 @@ def main():
                     learner.zero_grad()
                     y_pred = learner(sent_ids, attention)
                     y_pred, labels = clean_logits_and_labels(y_pred, labels)
+                    cw = calculate_class_weights(labels)
+                    loss_function = nn.BCELoss(weight=cw)
+
+
                     loss = loss_function(y_pred.float(), labels.float())
                     loss.backward()
                     optimizer.step()
@@ -248,6 +294,9 @@ def main():
                         attention = attention.to(device)
                         y_pred = learner(sent_ids, attention)
                         y_pred, labels = clean_logits_and_labels(y_pred, labels)
+                        cw = calculate_class_weights(labels)
+                        loss_function = nn.BCELoss(weight=cw)
+
                         loss = loss_function(y_pred.float(), labels.float())
                         meta_loss+=loss
                     meta_loss_total+=meta_loss
@@ -264,14 +313,14 @@ def main():
                 min_index=i
         with open(str(k)+"-shotlog.txt", "a+") as f:
             f.write("\nBest model is at epoch: "+str(min_index))
-    if test:
-        if not train:
+    if test:#test flag true
+        if not train:#if not train, we need a model path
             meta_learner = MetaLearner()
             meta_learner.load_state_dict(torch.load(model_path))
             meta_learner.to(device)
 
         for task in test_dataloader_support:
-            learner = MetaLearner()
+            learner = MetaLearner()#same idea as dev, except no loss in the outer loop just preictions
             learner.load_state_dict(meta_learner.state_dict())
             learner.to(device)
             optimizer = optim.Adam(learner.parameters(), lr=lr)
@@ -282,6 +331,9 @@ def main():
                 optimizer.zero_grad()
                 y_pred = learner(sent_ids, attention)
                 y_pred, labels = clean_logits_and_labels(y_pred, labels)
+                cw = calculate_class_weights(labels)
+                loss_function = nn.BCELoss(weight=cw)
+
                 loss = loss_function(y_pred.float(), labels.float())
                 loss.backward()
                 optimizer.step()

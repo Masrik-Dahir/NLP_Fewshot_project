@@ -1,8 +1,8 @@
                      precision    recall  f1-score   support
 
-                  O       0.95      1.00      0.97     90942
+                  O       0.95      0.99      0.97     90942
 I-STARTING_MATERIAL       0.00      0.00      0.00      5069
 
-           accuracy                           0.95     96011
-          macro avg       0.47      0.50      0.49     96011
-       weighted avg       0.90      0.95      0.92     96011
+           accuracy                           0.94     96011
+          macro avg       0.47      0.50      0.48     96011
+       weighted avg       0.90      0.94      0.92     96011

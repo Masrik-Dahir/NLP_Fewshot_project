@@ -1,8 +1,8 @@
                precision    recall  f1-score   support
 
-            O       0.99      1.00      0.99    135669
-B-YIELD_OTHER       0.00      0.00      0.00      1766
+            O       0.99      0.99      0.99    135669
+B-YIELD_OTHER       0.04      0.04      0.04      1766
 
-     accuracy                           0.99    137435
-    macro avg       0.49      0.50      0.50    137435
- weighted avg       0.97      0.99      0.98    137435
+     accuracy                           0.97    137435
+    macro avg       0.51      0.51      0.51    137435
+ weighted avg       0.98      0.97      0.97    137435

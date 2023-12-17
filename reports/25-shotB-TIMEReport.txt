@@ -1,8 +1,8 @@
               precision    recall  f1-score   support
 
-           O       0.99      1.00      1.00    115385
-      B-TIME       0.00      0.00      0.00       679
+           O       1.00      0.56      0.72    115385
+      B-TIME       0.01      0.99      0.03       679
 
-    accuracy                           0.99    116064
-   macro avg       0.50      0.50      0.50    116064
-weighted avg       0.99      0.99      0.99    116064
+    accuracy                           0.56    116064
+   macro avg       0.51      0.78      0.37    116064
+weighted avg       0.99      0.56      0.71    116064

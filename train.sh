@@ -12,4 +12,4 @@ python -m venv venv
 source venv/bin/activate
 pip install -U pip setuptools wheel
 pip install -r requirements.txt
-python main.py --train_path ../preprocessed_data/train/ --test_path ../preprocessed_data/test/ --dev_path ../preprocessed_data/dev/ --k 25 --test --batch_size 1 --model_path model_dumps/25-shot-79.pth
+python main.py --train_path ../preprocessed_data/train/ --test_path ../preprocessed_data/test/ --dev_path ../preprocessed_data/dev/ --k 5 --train --batch_size 5

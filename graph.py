@@ -1,6 +1,6 @@
 import re
 import matplotlib.pyplot as plt
-k=25
+k=5
 filepath = str(k)+"-shotlog.txt"
 text ="" 
 with open(filepath, "r") as f:

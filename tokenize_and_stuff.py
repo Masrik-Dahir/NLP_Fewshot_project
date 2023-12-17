@@ -1,3 +1,4 @@
+import torch
 import transformers
 transformers.logging.set_verbosity_error()  # Silence HuggingFace Transformers Warnings/Info Statements
 from transformers import BertTokenizerFast
@@ -44,6 +45,22 @@ def tokenize_bert(sentences, labels, max_len):
         all_attention_masks.append(attention_mask)
     return all_sentence_ids,all_sentence_labels,all_attention_masks
     
+def calculate_class_weights(labels):
+    labels_flat = labels.detach().cpu().numpy().flatten()
+    class_weight_dict = {0:0,1:0}
+    total_num_samples = 0
 
+    for l in labels_flat:
+        class_weight_dict[int(l)]+=1
+        total_num_samples +=1
+    try:
+        for key in class_weight_dict.keys():
+            class_weight_dict[key] = total_num_samples/(2*class_weight_dict[key])
+    except:
+        for key in class_weight_dict.keys():
+            class_weight_dict[key] = 1
 
-    
+    class_weights = [class_weight_dict[key] for key in labels_flat]
+    class_weights = torch.FloatTensor(class_weights).reshape(labels.shape)
+    class_weights = class_weights.to(labels.device)
+    return class_weights
